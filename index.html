@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+        }
+
+        #header {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        #header img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+        }
+
+        #social-links {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        #social-links a:hover {
+            opacity: 1;
+        }
+
+        #social-links img {
+            width: 30px;
+            height: 30px;
+        }
+
+        #repos {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .repo-container {
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            flex: 1 0 300px;
+            position: relative;
+        }
+
+        .repo {
+            margin-bottom: 10px;
+        }
+
+        .repo h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .repo p {
+            color: #ccc;
+        }
+
+        .language-stars {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .language-stars .stars {
+            display: flex;
+            align-items: center;
+            color: #ccc;
+        }
+
+        .language-stars .stars svg {
+            fill: #ccc;
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+
+        .language-stars .language {
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <img src="https://cdn.discordapp.com/avatars/461991104569671697/a_5d1b62e648f7dcc040c610a5d4f640cc.gif?size=1024" alt="Profile Picture">
+        <h1>Yusuf Bülbül</h1>
+        <p>Front End Developer</p>
+        <div id="social-links">
+            <a href="LINK_TO_INSTAGRAM"><img src="instagram_icon.svg" alt="Instagram"></a>
+            <a href="LINK_TO_TWITTER"><img src="twitter_icon.svg" alt="Twitter"></a>
+            <a href="LINK_TO_DISCORD"><img src="discord_icon.svg" alt="Discord"></a>
+            <a href="LINK_TO_GITHUB"><img src="github_icon.svg" alt="GitHub"></a>
+        </div>
+    </div>
+
+    <div id="repos"></div>
+
+    <script>
+        const username = "Github-Nickname"; //Github Kullanıcı adınızı giriniz.
+        const apiUrl = `https://api.github.com/users/${username}/repos`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(repos => {
+                const reposElement = document.getElementById('repos');
+                repos.slice(0, 6).forEach(repo => { // Sadece ilk 6 repoyu göstermeye yarıyor 6 sayısını kaç yaparsanız o kadar gösterir.
+                    const repoContainer = document.createElement('div');
+                    repoContainer.classList.add('repo-container');
+
+                    const repoElement = document.createElement('div');
+                    repoElement.classList.add('repo');
+                    repoElement.innerHTML = `
+                        <h2>${repo.name}</h2>
+                        <p>${repo.description ? repo.description : 'No description'}</p>
+                    `;
+                    repoContainer.appendChild(repoElement);
+
+                    const languageAndStars = document.createElement('div');
+                    languageAndStars.classList.add('language-stars');
+                    languageAndStars.innerHTML = `
+                        <div class="language">
+                            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-3 w-3">
+                                <path d="M9.96424 2.68571C10.0668 2.42931 9.94209 2.13833 9.6857 2.03577C9.4293 1.93322 9.13832 2.05792 9.03576 2.31432L5.03576 12.3143C4.9332 12.5707 5.05791 12.8617 5.3143 12.9642C5.5707 13.0668 5.86168 12.9421 5.96424 12.6857L9.96424 2.68571ZM3.85355 5.14646C4.04882 5.34172 4.04882 5.6583 3.85355 5.85356L2.20711 7.50001L3.85355 9.14646C4.04882 9.34172 4.04882 9.6583 3.85355 9.85356C3.65829 10.0488 3.34171 10.0488 3.14645 9.85356L1.14645 7.85356C0.951184 7.6583 0.951184 7.34172 1.14645 7.14646L3.14645 5.14646C3.34171 4.9512 3.65829 4.9512 3.85355 5.14646ZM11.1464 5.14646C11.3417 4.9512 11.6583 4.9512 11.8536 5.14646L13.8536 7.14646C14.0488 7.34172 14.0488 7.6583 13.8536 7.85356L11.8536 9.85356C11.6583 10.0488 11.3417 10.0488 11.1464 9.85356C10.9512 9.6583 10.9512 9.34172 11.1464 9.14646L12.7929 7.50001L11.1464 5.85356C10.9512 5.6583 10.9512 5.34172 11.1464 5.14646Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+                            </svg>
+                            ${repo.language ? repo.language : 'Not specified'}
+                        </div>
+                        <div class="stars">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                            ${repo.stargazers_count}
+                        </div>
+                    `;
+                    repoContainer.appendChild(languageAndStars);
+
+                    reposElement.appendChild(repoContainer);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching repos:', error);
+            });
+    </script>
+</body>
+</html>
