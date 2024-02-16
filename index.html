@@ -30,20 +30,27 @@
             text-align: center;
         }
 
-        #social-links a {
+        #social-icons-container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 10px;
+            display: inline-block;
+        }
+
+        .social-icon {
             display: inline-block;
             margin: 0 10px;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
         }
 
-        #social-links a:hover {
-            opacity: 1;
+        .social-icon img {
+            width: 25px;
+            height: 25px;
         }
 
-        #social-links img {
-            width: 30px;
-            height: 30px;
+        .social-icon p {
+            color: #000;
+            font-size: 12px;
+            margin: 5px 0 0;
         }
 
         #repos {
@@ -63,6 +70,12 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             flex: 1 0 300px;
             position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .repo-container:hover {
+            transform: translateY(-5px);
         }
 
         .repo {
@@ -76,6 +89,11 @@
 
         .repo p {
             color: #ccc;
+        }
+
+        .repo-description {
+            font-size: 14px;
+            margin-top: 10px;
         }
 
         .language-stars {
@@ -110,34 +128,30 @@
     <div id="header">
         <img src="https://cdn.discordapp.com/avatars/461991104569671697/a_5d1b62e648f7dcc040c610a5d4f640cc.gif?size=1024" alt="Profile Picture">
         <h1>Yusuf Bülbül</h1>
-        <p>Front End Developer</p>
-        <div id="social-links">
-            <a href="LINK_TO_INSTAGRAM"><img src="instagram_icon.svg" alt="Instagram"></a>
-            <a href="LINK_TO_TWITTER"><img src="twitter_icon.svg" alt="Twitter"></a>
-            <a href="LINK_TO_DISCORD"><img src="discord_icon.svg" alt="Discord"></a>
-            <a href="LINK_TO_GITHUB"><img src="github_icon.svg" alt="GitHub"></a>
-        </div>
-    </div>
-
+        <p> Developer</p>
+    
     <div id="repos"></div>
 
     <script>
-        const username = "Github-Nickname"; //Github Kullanıcı adınızı giriniz.
+        const username = "sporkysz";
         const apiUrl = `https://api.github.com/users/${username}/repos`;
 
         fetch(apiUrl)
             .then(response => response.json())
             .then(repos => {
                 const reposElement = document.getElementById('repos');
-                repos.slice(0, 6).forEach(repo => { // Sadece ilk 6 repoyu göstermeye yarıyor 6 sayısını kaç yaparsanız o kadar gösterir.
+                repos.slice(0, 6).forEach(repo => {
                     const repoContainer = document.createElement('div');
                     repoContainer.classList.add('repo-container');
+                    repoContainer.addEventListener('click', () => {
+                        window.open(repo.html_url, '_blank');
+                    });
 
                     const repoElement = document.createElement('div');
                     repoElement.classList.add('repo');
                     repoElement.innerHTML = `
                         <h2>${repo.name}</h2>
-                        <p>${repo.description ? repo.description : 'No description'}</p>
+                        <p class="repo-description">${repo.description ? repo.description : 'No description'}</p>
                     `;
                     repoContainer.appendChild(repoElement);
 
@@ -166,5 +180,7 @@
                 console.error('Error fetching repos:', error);
             });
     </script>
+
+    
 </body>
 </html>
