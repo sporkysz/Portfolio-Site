@@ -7,5 +7,6 @@
 
 
 
-* Github repo'lardan kaç tanesinin gözükmesini istediğinizi ayarlayabilmenize yarayan kısımdır. 6 sayısını kaç yaparsanız o kadar repo site de gözükecektir.
+* Github repo'lardan kaç tanesinin gözükmesini istediğinizi ayarlayabilmenize yarayan kısımdır. 
+* 6 sayısını kaç yaparsanız o kadar repo site de gözükecektir.
  repos.slice(0, 6).forEach(repo => {  
